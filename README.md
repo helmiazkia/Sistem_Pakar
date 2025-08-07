@@ -110,3 +110,5 @@ Gunakan rule engine atau framework seperti CLIPS / Jess.
 Tambahkan fitur grafik hasil atau riwayat dalam tabel.
 
 Buat versi mobile app dengan Flutter/React Native.
+
+Link : https://diagnosapenyakit.vercel.app/
