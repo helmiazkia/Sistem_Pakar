@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Pakar Neurologis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-white">
+  <!-- Landing Page -->
+  <section class="bg-gradient-to-br from-blue-700 to-indigo-900 text-white py-20" id="home">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Sistem Pakar Diagnosa Penyakit Neurologis</h1>
+      <p class="text-lg mb-6">Deteksi dini penyakit seperti Stroke, Epilepsi, Parkinson, dan Multiple Sclerosis berbasis gejala yang Anda alami.</p>
+      <a href="#diagnosa" class="btn btn-light text-blue-800 font-semibold px-5 py-2 rounded">Mulai Diagnosa</a>
+    </div>
+  </section>
+
+  <!-- Tentang -->
+  <section class="py-16 bg-gray-100" id="tentang">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-4">Tentang Sistem</h2>
+      <p class="text-gray-700 text-lg">Sistem pakar ini menggunakan pendekatan rule-based dengan bobot gejala untuk memperkirakan kemungkinan penyakit neurologis berdasarkan gejala yang dialami pengguna. Sistem ini dirancang untuk memberikan edukasi dan bukan sebagai pengganti diagnosa medis profesional.</p>
+    </div>
+  </section>
+
+  <!-- Diagnosa -->
+  <section class="py-16 bg-white" id="diagnosa">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6 text-center">Diagnosa Gejala Anda</h2>
+      <form id="diagnosisForm" class="space-y-4">
+        <p class="text-lg font-semibold mb-3">Pilih gejala yang Anda alami:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <label><input type="checkbox" value="kelemahan_satu_sisi" data-weight="0.9"> Kelemahan satu sisi tubuh</label>
+          <label><input type="checkbox" value="kehilangan_keseimbangan" data-weight="0.8"> Kehilangan keseimbangan</label>
+          <label><input type="checkbox" value="kejang_berulang" data-weight="0.9"> Kejang berulang</label>
+          <label><input type="checkbox" value="kehilangan_kesadaran" data-weight="0.8"> Kehilangan kesadaran</label>
+          <label><input type="checkbox" value="getaran_tangan" data-weight="0.7"> Tangan bergetar saat diam</label>
+          <label><input type="checkbox" value="gerakan_lambat" data-weight="0.6"> Gerakan tubuh melambat</label>
+          <label><input type="checkbox" value="mati_rasa" data-weight="0.6"> Mati rasa di kaki atau tangan</label>
+          <label><input type="checkbox" value="gangguan_penglihatan" data-weight="0.7"> Gangguan penglihatan</label>
+          <label><input type="checkbox" value="bicara_tidak_jelas" data-weight="0.8"> Bicara tidak jelas</label>
+          <label><input type="checkbox" value="sulit_berjalan" data-weight="0.8"> Sulit berjalan</label>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <button type="submit" class="btn btn-primary">Lihat Hasil Diagnosa</button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+        </div>
+      </form>
+
+      <div id="hasilDiagnosa" class="mt-6 p-4 bg-gray-50 border rounded hidden">
+        <h2 class="text-xl font-bold mb-2">Hasil Diagnosa</h2>
+        <div id="diagnosaText" class="text-gray-700"></div>
+      </div>
+
+      <div id="riwayatDiagnosa" class="mt-8 hidden">
+        <h3 class="text-lg font-semibold">Riwayat Diagnosa</h3>
+        <ul id="riwayatList" class="list-disc ml-6 text-sm text-gray-600"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-6 text-center">
+    <p>&copy; 2025 Sistem Pakar Neurologis. Dibuat untuk memenuhi tugas mata kuliah AI.</p>
+  </footer>
+
+  <!-- Script Diagnosa -->
+  <script>
+    const penyakitRules = [
+      {
+        nama: "Stroke",
+        gejala: ["kelemahan_satu_sisi", "kehilangan_keseimbangan", "bicara_tidak_jelas"],
+        penjelasan: "Stroke adalah gangguan aliran darah ke otak.",
+        saran: "Segera ke UGD. Penanganan cepat sangat penting."
+      },
+      {
+        nama: "Epilepsi",
+        gejala: ["kejang_berulang", "kehilangan_kesadaran"],
+        penjelasan: "Epilepsi adalah gangguan sistem saraf pusat.",
+        saran: "Gunakan obat antiepilepsi, konsultasikan ke neurolog."
+      },
+      {
+        nama: "Parkinson",
+        gejala: ["getaran_tangan", "gerakan_lambat", "sulit_berjalan"],
+        penjelasan: "Parkinson mempengaruhi gerakan dan kontrol otot.",
+        saran: "Terapi fisik dan obat dopamine sangat membantu."
+      },
+      {
+        nama: "Multiple Sclerosis (MS)",
+        gejala: ["mati_rasa", "gangguan_penglihatan", "sulit_berjalan"],
+        penjelasan: "MS adalah penyakit autoimun yang menyerang sistem saraf pusat.",
+        saran: "Segera konsultasi ke spesialis saraf untuk MRI dan pengobatan."
+      }
+    ];
+
+    const hasilDiv = document.getElementById("hasilDiagnosa");
+    const textDiv = document.getElementById("diagnosaText");
+    const riwayatList = document.getElementById("riwayatList");
+    const riwayatDiv = document.getElementById("riwayatDiagnosa");
+
+    document.getElementById("diagnosisForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedGejala = Array.from(checkboxes).map(cb => ({ nama: cb.value, bobot: parseFloat(cb.dataset.weight) }));
+
+      let hasil = [];
+      penyakitRules.forEach(penyakit => {
+        let totalMatch = 0;
+        penyakit.gejala.forEach(g => {
+          const found = selectedGejala.find(s => s.nama === g);
+          if (found) totalMatch += found.bobot;
+        });
+        const skor = (totalMatch / penyakit.gejala.length) * 100;
+        if (skor >= 50) {
+          hasil.push({
+            nama: penyakit.nama,
+            skor: skor.toFixed(1),
+            penjelasan: penyakit.penjelasan,
+            saran: penyakit.saran
+          });
+        }
+      });
+
+      hasilDiv.classList.remove("hidden");
+      textDiv.innerHTML = "";
+
+      if (hasil.length > 0) {
+        hasil.sort((a, b) => b.skor - a.skor);
+        hasil.forEach(item => {
+          const html = `
+            <div class="mb-4">
+              <strong class="text-blue-600 text-lg">${item.nama}</strong> (${item.skor}% keyakinan)<br/>
+              <span class="block text-sm italic mb-1">${item.penjelasan}</span>
+              <span class="block text-sm">👉 ${item.saran}</span>
+            </div>`;
+          textDiv.innerHTML += html;
+          const li = document.createElement("li");
+          li.innerText = `${item.nama} (${item.skor}%)`;
+          riwayatList.appendChild(li);
+        });
+        riwayatDiv.classList.remove("hidden");
+      } else {
+        textDiv.innerHTML = `<p class="text-danger">Tidak ditemukan penyakit neurologis yang cocok berdasarkan gejala.</p>`;
+      }
+    });
+
+    function resetForm() {
+      document.getElementById("diagnosisForm").reset();
+      hasilDiv.classList.add("hidden");
+      textDiv.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
