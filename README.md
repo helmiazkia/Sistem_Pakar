@@ -1,114 +1,70 @@
-Ini adalah sistem pakar berbasis web yang dirancang untuk membantu pengguna melakukan deteksi dini terhadap penyakit neurologis (gangguan saraf) berdasarkan gejala yang dirasakan. Sistem ini tidak menggantikan diagnosa dokter, tetapi dapat digunakan sebagai alat bantu edukasi awal.
+# 🧠 Sistem Pakar Diagnosa Penyakit Neurologis
 
-🔧 Teknologi yang Digunakan
-HTML5: Untuk struktur halaman web.
+Sistem ini merupakan aplikasi **pakar berbasis web** yang dirancang untuk membantu pengguna melakukan **deteksi dini terhadap penyakit neurologis** (gangguan saraf) berdasarkan **gejala yang dirasakan**.  
+Sistem ini **tidak menggantikan diagnosa dokter**, namun dapat menjadi **alat bantu edukatif awal**.
 
-Tailwind CSS + Bootstrap 5: Untuk tampilan (UI) yang modern dan responsif.
+🌐 **Demo Online**: [https://diagnosapenyakit.vercel.app](https://diagnosapenyakit.vercel.app)
 
-JavaScript murni: Untuk logika diagnosa dan interaksi pengguna (tanpa framework tambahan).
+---
 
-🖼️ Struktur Halaman
+## 🔧 Teknologi yang Digunakan
 
-1. Landing Page (Home)
-   Bagian awal yang memperkenalkan sistem.
+- **HTML5**: Struktur halaman
+- **Tailwind CSS** + **Bootstrap 5**: UI modern, cepat, dan responsif
+- **JavaScript murni**: Logika sistem pakar dan interaksi pengguna
+- ⚠️ _Tanpa backend dan database — sistem sepenuhnya berjalan di sisi klien (client-side only)_
 
-Terdapat tombol "Mulai Diagnosa" yang men-scroll langsung ke bagian formulir diagnosa.
+---
 
-2. Tentang Sistem
-   Menjelaskan bahwa sistem ini berbasis rule-based (aturan) dengan bobot gejala.
+## 🖼️ Struktur Halaman
 
-Penekanan bahwa ini bukan pengganti diagnosis medis profesional.
+### 1. **Landing Page (Home)**
 
-3. Form Diagnosa
-   Pengguna diberikan daftar checkbox gejala.
+- Bagian awal dengan judul dan pengantar sistem
+- Tombol _"Mulai Diagnosa"_ untuk scroll ke bagian formulir
 
-Setiap gejala memiliki atribut data-weight (bobot) yang mewakili tingkat signifikansinya terhadap penyakit tertentu.
+### 2. **Tentang Sistem**
 
-Tombol:
+- Menjelaskan metode diagnosa berbasis _rule-based_ dan bobot gejala
+- Ditekankan bahwa sistem hanya sebagai alat bantu, bukan alat diagnosis resmi
 
-Lihat Hasil Diagnosa → Mengolah gejala dan menampilkan kemungkinan penyakit.
+### 3. **Form Diagnosa**
 
-Reset → Menghapus semua input dan hasil.
+- Checklist gejala dengan bobot (`data-weight`)
+- Tombol aksi:
+  - `Lihat Hasil Diagnosa`: Proses perhitungan dan tampilkan hasil
+  - `Reset`: Bersihkan form dan hasil sebelumnya
 
-4. Hasil Diagnosa
-   Ditampilkan jika sistem berhasil menemukan penyakit yang sesuai.
+### 4. **Hasil Diagnosa**
 
-Menampilkan:
+- Menampilkan daftar penyakit yang cocok:
+  - Nama penyakit
+  - Persentase keyakinan (%)
+  - Penjelasan singkat
+  - Saran atau rekomendasi
 
-Nama penyakit
+### 5. **Riwayat Diagnosa**
 
-Persentase keyakinan
+- Menampilkan daftar penyakit dari sesi diagnosa sebelumnya
+- ⚠️ Hanya disimpan sementara selama halaman aktif (tanpa database)
 
-Penjelasan penyakit
+### 6. **Footer**
 
-Saran atau langkah selanjutnya
+- Keterangan bahwa sistem dibuat untuk tugas kuliah AI tahun 2025
 
-Jika tidak ada kecocokan, ditampilkan pesan peringatan.
+---
 
-5. Riwayat Diagnosa
-   Menampilkan daftar hasil diagnosa sebelumnya secara dinamis (di-refresh setiap submit).
+## 🧮 Logika Diagnosa
 
-Tidak menggunakan database; hanya ditampilkan selama sesi aktif.
+### Penyakit yang Dideteksi:
 
-6. Footer
-   Penutup halaman yang menyebutkan bahwa aplikasi ini dibuat untuk tugas kuliah AI tahun 2025.
+Disimpan dalam array `penyakitRules`:
 
-🧮 Logika Diagnosa (JavaScript)
-Penyakit dan Gejala:
-Disimpan dalam array penyakitRules, masing-masing penyakit memiliki:
-
-nama: Nama penyakit (mis. Stroke, Epilepsi)
-
-gejala: Daftar kode gejala yang menjadi ciri penyakit itu
-
-penjelasan: Informasi tentang penyakit
-
-saran: Saran penanganan awal
-
-Proses Diagnosa:
-Saat form disubmit:
-
-Semua gejala yang diceklis diambil.
-
-Bobot masing-masing gejala dihitung.
-
-Skor dihitung:
-
-js
-Copy
-Edit
-skor = (totalBobotCocok / jumlahGejalaPenyakit) \* 100
-Jika skor >= 50%, maka penyakit ditampilkan sebagai hasil.
-
-Hasil diurutkan dari skor tertinggi ke terendah.
-
-✅ Kelebihan Program
-UI responsif dan menarik dengan kombinasi Tailwind + Bootstrap.
-
-Menggunakan pendekatan rule-based yang sederhana namun efektif.
-
-Cocok untuk tugas akhir atau praktikum AI/Sistem Pakar.
-
-Tidak perlu backend, bisa dijalankan langsung dari file HTML lokal.
-
-⚠️ Catatan & Keterbatasan
-Tidak menyimpan data secara permanen (riwayat hanya muncul di sesi aktif).
-
-Tidak menggunakan inference engine seperti forward chaining/backward chaining, hanya pencocokan bobot manual.
-
-Skalabilitas terbatas jika ingin menambahkan banyak penyakit atau gejala.
-
-Tidak mendukung login/multi user atau rekam medis.
-
-💡 Saran Pengembangan Lanjutan
-Jika ingin dikembangkan lebih lanjut:
-
-Tambahkan penyimpanan lokal (localStorage) atau backend (PHP, Laravel, Firebase).
-
-Gunakan rule engine atau framework seperti CLIPS / Jess.
-
-Tambahkan fitur grafik hasil atau riwayat dalam tabel.
-
-Buat versi mobile app dengan Flutter/React Native.
-
-Link : https://diagnosapenyakit.vercel.app/
+```js
+{
+  nama: "Stroke",
+  gejala: ["kelemahan_satu_sisi", "kehilangan_keseimbangan", "bicara_tidak_jelas"],
+  penjelasan: "...",
+  saran: "..."
+}
+```
